@@ -18,6 +18,6 @@ after_success:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pawssword-stdin
 
 - docker push ffion/multi-client
-- docker push ffion/multi-ngix
+- docker push ffion/multi-nginx
 - docker push ffion/multi-server
 - docker push ffion/multi-worker
