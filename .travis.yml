@@ -1,0 +1,23 @@
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t ffion/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run ffion/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t ffion/multi-client ./client
+  - docker build -t ffion/multi-nginx ./nginx
+  - docker build -t ffion/multi-server ./server
+  - docker build -t ffion/multi-worker ./worker
+
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --pawssword-stdin
+
+- docker push ffion/multi-client
+- docker push ffion/multi-ngix
+- docker push ffion/multi-server
+- docker push ffion/multi-worker
+
